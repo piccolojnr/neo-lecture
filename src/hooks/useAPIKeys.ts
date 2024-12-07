@@ -43,6 +43,7 @@ export const useAPIKeys = () => {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
+                withCredentials: true,
             });
             return response.data.key;
         } catch (error: any) {
@@ -61,6 +62,7 @@ export const useAPIKeys = () => {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
+                    withCredentials: true,
                 }
             );
             return response.data;
@@ -79,6 +81,7 @@ export const useAPIKeys = () => {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
+                    withCredentials: true,
                 }
             );
             return response.data;
@@ -96,6 +99,7 @@ export const useAPIKeys = () => {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
+                    withCredentials: true,
                 }
             );
             return response.data;

@@ -58,6 +58,7 @@ export const useQuizzes = () => {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
+    withCredentials: true,
   };
 
   const getQuiz = (id: string) =>

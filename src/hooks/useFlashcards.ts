@@ -43,6 +43,7 @@ export const useFlashcards = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
+          withCredentials: true,
         });
         return response.data;
       },
@@ -54,6 +55,7 @@ export const useFlashcards = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
+        withCredentials: true,
       });
       return response.data;
     },
@@ -68,6 +70,7 @@ export const useFlashcards = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
+        withCredentials: true,
       });
       return response.data;
     },
@@ -83,6 +86,7 @@ export const useFlashcards = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
+        withCredentials: true,
       });
       return response.data;
     },

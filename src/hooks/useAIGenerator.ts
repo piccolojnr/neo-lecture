@@ -20,6 +20,7 @@ export const useAIGenerator = () => {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
                         },
+                        withCredentials: true,
                     }
                 );
                 return response.data;
@@ -40,6 +41,7 @@ export const useAIGenerator = () => {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`,
                         },
+                        withCredentials: true,
                     }
                 );
                 return response.data;
