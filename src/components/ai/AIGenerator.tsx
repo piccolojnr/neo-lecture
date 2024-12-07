@@ -9,6 +9,7 @@ import { ContentPreview } from "../ContentPreview";
 import { useFlashcards } from "../../hooks/useFlashcards";
 import { useQuizzes } from "../../hooks/useQuizzes";
 import { useAPIKeys } from "../../hooks/useAPIKeys";
+import { CustomCheckbox, CustomInput, CustomSelect } from "../CustomTextArea";
 
 interface AIGeneratorProps {
   lectureId: string;
@@ -27,11 +28,11 @@ export default function AIGenerator({
   availableFiles,
 }: AIGeneratorProps) {
   const [title, setTitle] = useState("");
-  const [type, setType] = useState<"flashcard" | "quiz">("quiz");
+  const [type, setType] = useState<"flashcard" | "quiz">("flashcard");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<any[]>([]);
-  const [provider, setProvider] = useState<"openai" | "groq">("openai");
+  const [provider, setProvider] = useState<"openai" | "groq">("groq");
 
   const [selectedFileIds, setSelectedFileIds] = useState<string[]>([]);
 
@@ -157,63 +158,47 @@ export default function AIGenerator({
   };
 
   return (
-    <div className="">
+    <div className="mt-4">
       {results.length <= 0 && (
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Content Type */}
           <div>
-            <label
-              htmlFor="type"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Content Type
-            </label>
-            <select
-              id="type"
+            <CustomSelect
+              label="Content Type"
               value={type}
-              onChange={(e) => setType(e.target.value as "flashcard" | "quiz")}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
-            >
-              <option value="flashcard">Flashcards</option>
-              <option value="quiz">Quiz</option>
-            </select>
+              onChange={(v) => setType(v as "flashcard" | "quiz")}
+              options={[
+                { value: "flashcard", label: "Flashcards" },
+                { value: "quiz", label: "Quiz" },
+              ]}
+            />
           </div>
 
           {/* Title */}
           <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Title
-            </label>
-            <input
-              type="text"
-              id="title"
+            <CustomInput
+              label="Title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
+              onChange={(v) => setTitle(v)}
               required
             />
           </div>
 
           {/* AI Provider */}
-          <div>
-            <label
-              htmlFor="provider"
-              className="block text-sm font-medium text-gray-700"
-            >
-              AI Provider
-            </label>
-            <select
-              id="provider"
+          <div
+            className={`${
+              provider === "groq" ? "bg-red-50" : "bg-green-50"
+            } p-4 rounded-md`}
+          >
+            <CustomSelect
+              label="AI Provider"
               value={provider}
-              onChange={(e) => setProvider(e.target.value as "openai" | "groq")}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
-            >
-              <option value="openai">OpenAI</option>
-              <option value="groq">Groq</option>
-            </select>
+              onChange={(v) => setProvider(v as "openai" | "groq")}
+              options={[
+                { value: "openai", label: "OpenAI" },
+                { value: "groq", label: "Groq" },
+              ]}
+            />
             <p className="mt-1 text-sm text-gray-500">
               Make sure you have added your API key in settings
             </p>
@@ -232,15 +217,11 @@ export default function AIGenerator({
               <ul className="space-y-2">
                 {availableFiles.map((file) => (
                   <li key={file.id} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
+                    <CustomCheckbox
+                      label={file.originalName}
                       checked={selectedFileIds.includes(file.id)}
                       onChange={() => handleFileSelection(file.id)}
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                     />
-                    <span className="text-sm text-gray-700">
-                      {file.originalName}
-                    </span>
                   </li>
                 ))}
               </ul>

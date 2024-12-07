@@ -5,7 +5,7 @@ import {
   PencilIcon,
   BookmarkIcon,
 } from "@heroicons/react/20/solid";
-import CustomTextArea from "./CustomTextArea";
+import { CustomCheckbox, CustomInput, CustomTextArea } from "./CustomTextArea";
 
 interface ContentPreviewProps {
   content: any[];
@@ -122,7 +122,16 @@ export function ContentPreview({
             <div className="space-y-2">
               {item.options.map((option: string, optIndex: number) => (
                 <div key={optIndex} className="flex items-center space-x-2">
-                  <input
+                  <CustomInput
+                    value={option}
+                    onChange={(e) => {
+                      const newOptions = [...item.options];
+                      newOptions[optIndex] = e;
+                      handleEdit(index, "options", newOptions);
+                    }}
+                    label=""
+                  />
+                  {/* <input
                     type="text"
                     className="flex-1 p-2 border rounded"
                     value={option}
@@ -131,20 +140,25 @@ export function ContentPreview({
                       newOptions[optIndex] = e.target.value;
                       handleEdit(index, "options", newOptions);
                     }}
+                  /> */}
+                  <CustomCheckbox
+                    checked={option === item.correctAnswer}
+                    onChange={() => handleEdit(index, "correctAnswer", option)}
+                    label=""
                   />
-                  <input
+                  {/* <input
                     type="radio"
                     checked={option === item.correctAnswer}
                     onChange={() => handleEdit(index, "correctAnswer", option)}
-                  />
+                  /> */}
                 </div>
               ))}
             </div>
-            <textarea
-              className="w-full p-2 border rounded"
-              value={item.explanation || ""}
-              placeholder="Explanation (optional)"
-              onChange={(e) => handleEdit(index, "explanation", e.target.value)}
+            <CustomTextArea
+              label="Explanation"
+              value={item.explanation}
+              onChange={(e) => handleEdit(index, "explanation", e)}
+              rows={3}
             />
           </>
         ) : (

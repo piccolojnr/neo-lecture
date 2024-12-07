@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLectures } from "../../hooks/useLectures";
-import { AddFiles } from "./AddFiles";
 import { API_URL } from "../../config";
 import Breadcrumb from "../common/Breadcrumb";
 import AIGenerator from "../ai/AIGenerator";
+import AddFiles from "./AddFiles";
 
 interface File {
   id: string;

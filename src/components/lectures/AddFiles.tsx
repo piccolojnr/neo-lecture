@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { API_URL } from "../../config";
+import { CustomFileUpload } from "../CustomTextArea";
 
 interface AddFilesProps {
   lectureId: string;
@@ -9,7 +10,7 @@ interface AddFilesProps {
   onCancel?: () => void;
 }
 
-export const AddFiles: React.FC<AddFilesProps> = ({
+const AddFiles: React.FC<AddFilesProps> = ({
   lectureId,
   onSuccess,
   onCancel,
@@ -64,44 +65,6 @@ export const AddFiles: React.FC<AddFilesProps> = ({
     },
   });
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(event.target.files || []);
-
-    // Validate file types
-    const invalidFiles = selectedFiles.filter((file) => {
-      const validTypes = [
-        "application/pdf",
-        "text/plain",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ];
-      return !validTypes.includes(file.type);
-    });
-
-    if (invalidFiles.length > 0) {
-      setError("Only PDF, TXT, DOC, and DOCX files are allowed");
-      return;
-    }
-
-    // Validate total number of files
-    if (selectedFiles.length > 5) {
-      setError("Maximum 5 files allowed");
-      return;
-    }
-
-    // Validate file sizes
-    const oversizedFiles = selectedFiles.filter(
-      (file) => file.size > 10 * 1024 * 1024
-    );
-    if (oversizedFiles.length > 0) {
-      setError("Files must be under 10MB");
-      return;
-    }
-
-    setFiles(selectedFiles);
-    setError(null);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setUploading(true);
@@ -113,38 +76,7 @@ export const AddFiles: React.FC<AddFilesProps> = ({
     <div className="bg-white p-4 rounded-lg shadow">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="files"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Add Files (Max 5 files, 10MB each)
-          </label>
-          <input
-            type="file"
-            id="files"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            className="mt-1 block w-full text-sm text-gray-500
-              file:mr-4 file:py-2 file:px-4
-              file:rounded-md file:border-0
-              file:text-sm file:font-semibold
-              file:bg-indigo-50 file:text-indigo-700
-              hover:file:bg-indigo-100"
-            multiple
-            accept=".pdf,.txt,.doc,.docx"
-          />
-          {files.length > 0 && (
-            <div className="mt-2">
-              <p className="text-sm text-gray-500">Selected files:</p>
-              <ul className="list-disc list-inside">
-                {Array.from(files).map((file, index) => (
-                  <li key={index} className="text-sm text-gray-700">
-                    {file.name} ({(file.size / 1024 / 1024).toFixed(2)}MB)
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <CustomFileUpload onFileSelect={() => {}} />
         </div>
 
         {error && <div className="text-red-500 text-sm">{error}</div>}
@@ -173,3 +105,5 @@ export const AddFiles: React.FC<AddFilesProps> = ({
     </div>
   );
 };
+
+export default AddFiles;

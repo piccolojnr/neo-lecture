@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFlashcards } from "../../hooks/useFlashcards";
-import CustomTextArea from "../CustomTextArea";
+import { CustomInput, CustomTextArea } from "../CustomTextArea";
 import Breadcrumb from "../common/Breadcrumb";
 
 interface Flashcard {
@@ -97,19 +97,11 @@ export default function FlashcardSetCreate() {
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Title Section */}
           <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-semibold text-gray-700"
-            >
-              Title
-            </label>
-            <input
-              type="text"
-              id="title"
+            <CustomInput
+              label="Title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
-              placeholder="Enter flashcard set title"
+              onChange={(v) => setTitle(v)}
+              required
             />
           </div>
 

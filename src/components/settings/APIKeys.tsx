@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAPIKeys } from "../../hooks/useAPIKeys";
+import { CustomInput, CustomSelect } from "../CustomTextArea";
 
 const PROVIDERS = [
   { id: "openai", name: "OpenAI" },
@@ -84,37 +85,22 @@ export default function APIKeys() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
+          <CustomInput
+            label="Name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
+            onChange={(v) => setName(v)}
             required
           />
         </div>
 
         <div>
-          <label
-            htmlFor="key"
-            className="block text-sm font-medium text-gray-700"
-          >
-            API Key
-          </label>
-          <input
-            type="password"
-            id="key"
+          <CustomInput
+            label="API Key"
             value={key}
-            onChange={(e) => setKey(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
+            onChange={(v) => setKey(v)}
             required={!editingKey}
           />
+
           {editingKey && (
             <p className="mt-1 text-sm text-gray-500">
               Leave blank to keep the current key
@@ -124,24 +110,15 @@ export default function APIKeys() {
 
         {!editingKey && (
           <div>
-            <label
-              htmlFor="provider"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Provider
-            </label>
-            <select
-              id="provider"
+            <CustomSelect
+              label="Provider"
               value={provider}
-              onChange={(e) => setProvider(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
-            >
-              {PROVIDERS.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
+              onChange={(v) => setProvider(v as string)}
+              options={PROVIDERS.map((p) => ({
+                value: p.id,
+                label: p.name,
+              }))}
+            />
           </div>
         )}
 
