@@ -120,7 +120,7 @@ export default function QuizView() {
             items={[
               {
                 name: "Dashboard",
-                href: "/dashbord",
+                href: "/dashboard",
               },
               {
                 name: quiz.lecture.title,

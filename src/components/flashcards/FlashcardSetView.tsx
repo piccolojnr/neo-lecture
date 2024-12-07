@@ -154,7 +154,7 @@ export default function FlashcardSetView() {
             items={[
               {
                 name: "Dashboard",
-                href: "/dashbord",
+                href: "/dashboard",
               },
               {
                 name: flashcardSet.lecture.title,

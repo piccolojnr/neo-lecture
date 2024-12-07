@@ -151,7 +151,7 @@ export default function QuizCreate() {
         items={[
           {
             name: "Dashboard",
-            href: "/dashbord",
+            href: "/dashboard",
           },
           {
             name: "Lecture",

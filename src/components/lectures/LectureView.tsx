@@ -100,7 +100,7 @@ export default function LectureView() {
             items={[
               {
                 name: "Dashboard",
-                href: "/dashbord",
+                href: "/dashboard",
               },
               {
                 name: lecture.title,

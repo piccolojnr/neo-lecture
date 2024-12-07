@@ -93,7 +93,7 @@ export default function FlashcardSetEdit() {
             items={[
               {
                 name: "Dashboard",
-                href: "/dashbord",
+                href: "/dashboard",
               },
               {
                 name: flashcardSet.lecture.title,

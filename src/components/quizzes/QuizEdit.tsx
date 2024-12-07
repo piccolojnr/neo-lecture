@@ -178,7 +178,7 @@ export default function QuizEdit() {
             items={[
               {
                 name: "Dashboard",
-                href: "/dashbord",
+                href: "/dashboard",
               },
               {
                 name: quiz.lecture.title,
