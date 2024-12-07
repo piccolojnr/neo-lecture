@@ -242,6 +242,21 @@ export default function FlashcardSetView() {
           </div>
         </div>
       )}
+
+      <div className="grid grid-cols-6 gap-2 mt-4">
+        {flashcardSet.flashcards.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              setCurrentCardIndex(index);
+              setIsFlipped(false);
+            }}
+            className={`h-2 rounded-full ${
+              currentCardIndex === index ? "bg-indigo-600" : "bg-gray-300"
+            }`}
+          />
+        ))}
+      </div>
     </div>
   );
 }
