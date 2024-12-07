@@ -1,1 +1,1 @@
-export const API_URL = 'http://54.237.184.84:3001';
+export const API_URL = process.env.REACT_APP_API_URL || 'https://www.piccolojnr.tech';
