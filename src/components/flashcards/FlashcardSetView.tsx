@@ -5,45 +5,26 @@ import Breadcrumb from "../common/Breadcrumb";
 import axios from "axios";
 import { API_URL } from "../../config";
 import { useMutation } from "@tanstack/react-query";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  PencilIcon,
+  TrashIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline";
 
 interface ConfidenceButton {
   level: number;
   label: string;
   color: string;
-  hoverColor: string;
 }
 
 const confidenceButtons: ConfidenceButton[] = [
-  {
-    level: 1,
-    label: "Again",
-    color: "bg-red-600",
-    hoverColor: "hover:bg-red-700",
-  },
-  {
-    level: 2,
-    label: "Hard",
-    color: "bg-orange-600",
-    hoverColor: "hover:bg-orange-700",
-  },
-  {
-    level: 3,
-    label: "Good",
-    color: "bg-yellow-600",
-    hoverColor: "hover:bg-yellow-700",
-  },
-  {
-    level: 4,
-    label: "Easy",
-    color: "bg-green-600",
-    hoverColor: "hover:bg-green-700",
-  },
-  {
-    level: 5,
-    label: "Perfect",
-    color: "bg-emerald-600",
-    hoverColor: "hover:bg-emerald-700",
-  },
+  { level: 1, label: "Again", color: "bg-red-600" },
+  { level: 2, label: "Hard", color: "bg-orange-600" },
+  { level: 3, label: "Good", color: "bg-yellow-600" },
+  { level: 4, label: "Easy", color: "bg-green-600" },
+  { level: 5, label: "Perfect", color: "bg-emerald-600" },
 ];
 
 export default function FlashcardSetView() {
@@ -54,7 +35,6 @@ export default function FlashcardSetView() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [showConfidence, setShowConfidence] = useState(false);
 
   const { data: flashcardSet, isLoading, error } = getFlashcardSet(id!);
 
@@ -70,17 +50,15 @@ export default function FlashcardSetView() {
         `${API_URL}/users/flashcard/${flashcardId}/review`,
         { confidence },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
       return response.data;
     },
-    onSuccess: () => {
-      handleNext();
-      setShowConfidence(false);
-    },
+    onSuccess: () =>
+      setCurrentCardIndex((index) =>
+        Math.min(index + 1, flashcardSet!.flashcards.length - 1)
+      ),
   });
 
   if (isLoading) {
@@ -93,47 +71,27 @@ export default function FlashcardSetView() {
 
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-red-50 border border-red-200 rounded-md p-4">
-          <p className="text-red-600">Error loading flashcard set</p>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="bg-red-50 p-6 rounded-lg shadow-md">
+          <XCircleIcon className="w-6 h-6 text-red-500 mb-2" />
+          <p className="text-red-600">
+            Error loading flashcard set. Please try again later.
+          </p>
         </div>
       </div>
     );
   }
 
-  if (!flashcardSet) {
-    return null;
-  }
+  if (!flashcardSet) return null;
 
-  const handleNext = () => {
-    if (currentCardIndex < flashcardSet.flashcards.length - 1) {
-      setCurrentCardIndex(currentCardIndex + 1);
-      setIsFlipped(false);
-      setShowConfidence(false);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentCardIndex > 0) {
-      setCurrentCardIndex(currentCardIndex - 1);
-      setIsFlipped(false);
-      setShowConfidence(false);
-    }
-  };
+  const handleFlip = () => setIsFlipped((prev) => !prev);
 
   const handleDelete = async () => {
     try {
       await deleteFlashcardSet.mutateAsync(id!);
       navigate(`/lectures/${flashcardSet.lectureId}`);
-    } catch (error) {
-      console.error("Delete flashcard set error:", error);
-    }
-  };
-
-  const handleFlip = () => {
-    setIsFlipped(!isFlipped);
-    if (!isFlipped) {
-      setShowConfidence(true);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -147,150 +105,142 @@ export default function FlashcardSetView() {
   const currentCard = flashcardSet.flashcards[currentCardIndex];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      {flashcardSet && (
-        <>
-          <Breadcrumb
-            items={[
-              {
-                name: "Dashboard",
-                href: "/dashboard",
-              },
-              {
-                name: flashcardSet.lecture.title,
-                href: `/lectures/${flashcardSet.lecture.id}`,
-              },
-              {
-                name: flashcardSet.title,
-                href: `/flashcards/${flashcardSet.id}`,
-              },
-            ]}
-          />
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">
-                {flashcardSet.title}
-              </h1>
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => navigate(`/flashcards/${id}/edit`)}
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => setShowDeleteConfirm(true)}
-                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <p className="text-gray-600">
-                Card {currentCardIndex + 1} of {flashcardSet.flashcards.length}
-              </p>
-            </div>
-
-            <div
-              className="relative h-64 mb-6 cursor-pointer"
-              onClick={handleFlip}
+    <div className="max-w-3xl mx-auto px-4 py-6">
+      <Breadcrumb
+        items={[
+          { name: "Dashboard", href: "/dashboard" },
+          {
+            name: flashcardSet.lecture.title,
+            href: `/lectures/${flashcardSet.lecture.id}`,
+          },
+          { name: flashcardSet.title, href: `/flashcards/${flashcardSet.id}` },
+        ]}
+      />
+      <div className="bg-white shadow rounded-lg p-6 space-y-6">
+        <div className="flex justify-between items-center ">
+          <h1 className="text-xl font-bold text-gray-800">
+            {flashcardSet.title}
+          </h1>
+          <div className="flex space-x-2">
+            <button
+              onClick={() => navigate(`/flashcards/${id}/edit`)}
+              className="flex items-center space-x-1 px-3 py-1 border rounded-lg text-gray-700 hover:bg-gray-100"
             >
-              <div
-                className={`absolute inset-0 transition-transform duration-500 transform ${
-                  isFlipped ? "rotate-y-180 opacity-0" : ""
-                }`}
-              >
-                <div className="h-full bg-gray-50 rounded-lg p-6 flex items-center justify-center">
-                  <p className="text-lg text-center">{currentCard.front}</p>
-                </div>
-              </div>
-              <div
-                className={`absolute inset-0 transition-transform duration-500 transform ${
-                  isFlipped ? "" : "rotate-y-180 opacity-0"
-                }`}
-              >
-                <div className="h-full bg-gray-50 rounded-lg p-6 flex items-center justify-center">
-                  <p className="text-lg text-center">{currentCard.back}</p>
-                </div>
-              </div>
-            </div>
-
-            {showConfidence && isFlipped ? (
-              <div className="mb-6">
-                <h3 className="text-sm font-medium text-gray-700 mb-3">
-                  How well did you know this?
-                </h3>
-                <div className="grid grid-cols-5 gap-2">
-                  {confidenceButtons.map((button) => (
-                    <button
-                      key={button.level}
-                      onClick={() => handleConfidenceRating(button.level)}
-                      className={`px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white ${
-                        button.color
-                      } ${button.hoverColor} ${
-                        submitReview.isPending
-                          ? "opacity-50 cursor-not-allowed"
-                          : ""
-                      }`}
-                      disabled={submitReview.isPending}
-                    >
-                      {button.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div className="flex justify-between">
-                <button
-                  onClick={handlePrevious}
-                  disabled={currentCardIndex === 0}
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Previous
-                </button>
-                <button
-                  onClick={handleNext}
-                  disabled={
-                    currentCardIndex === flashcardSet.flashcards.length - 1
-                  }
-                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Next
-                </button>
-              </div>
-            )}
+              <PencilIcon className="w-5 h-5" />
+              <span className="hidden sm:inline">Edit</span>
+            </button>
+            <button
+              onClick={() => setShowDeleteConfirm(true)}
+              className="flex items-center space-x-1 px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700"
+            >
+              <TrashIcon className="w-5 h-5" />
+              <span className="hidden sm:inline">Delete</span>
+            </button>
           </div>
+        </div>
+        <div
+          className="relative h-64 sm:h-80 md:h-96 rounded-lg shadow-md bg-gray-50 flex justify-center items-center cursor-pointer"
+          onClick={handleFlip}
+        >
+          <div
+            className={`absolute inset-0 flex items-center justify-center p-4 text-lg sm:text-xl md:text-2xl overflow-scroll ${
+              isFlipped ? "hidden" : ""
+            }`}
+          >
+            <p className="text-center overflow-scroll text-ellipsis max-h-full leading-tight no-scrollbar ">
+              {currentCard.front}
+            </p>
+          </div>
+          <div
+            className={`absolute inset-0 flex items-center justify-center p-4 text-lg sm:text-xl md:text-2xl overflow-scroll ${
+              !isFlipped ? "hidden" : ""
+            }`}
+          >
+            <p className="text-center overflow-scroll text-ellipsis max-h-full leading-tight no-scrollbar ">
+              {currentCard.back}
+            </p>
+          </div>
+        </div>
 
-          {showDeleteConfirm && (
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
-              <div className="bg-white rounded-lg p-6 max-w-sm mx-4">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
-                  Delete Flashcard Set
-                </h3>
-                <p className="text-gray-500 mb-6">
-                  Are you sure you want to delete this flashcard set? This
-                  action cannot be undone.
-                </p>
-                <div className="flex justify-end space-x-3">
-                  <button
-                    onClick={() => setShowDeleteConfirm(false)}
-                    className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleDelete}
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
+        <div className="flex justify-between items-center mt-4">
+          <button
+            onClick={() =>
+              setCurrentCardIndex((index) => Math.max(index - 1, 0))
+            }
+            disabled={currentCardIndex === 0}
+            className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ArrowLeftIcon className="w-5 h-5" />
+            <span className="hidden sm:inline">Previous</span>
+          </button>
+          <p className="text-gray-600 text-sm sm:text-base">
+            Card {currentCardIndex + 1} of {flashcardSet.flashcards.length}
+          </p>
+          <button
+            onClick={() =>
+              setCurrentCardIndex((index) =>
+                Math.min(index + 1, flashcardSet.flashcards.length - 1)
+              )
+            }
+            disabled={currentCardIndex === flashcardSet.flashcards.length - 1}
+            className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span className="hidden sm:inline">Next</span>
+            <ArrowRightIcon className="w-5 h-5" />
+          </button>
+        </div>
+        {isFlipped && (
+          <div className="space-y-4">
+            <p className="text-sm text-gray-600 text-center">
+              How well did you know this card?
+            </p>
+            <div className="grid grid-cols-5 gap-3">
+              {confidenceButtons.map((button) => (
+                <button
+                  key={button.level}
+                  onClick={() => handleConfidenceRating(button.level)}
+                  className="flex flex-col items-center justify-center p-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg shadow transition-transform transform hover:scale-105"
+                >
+                  {/* Add icons to improve button aesthetics */}
+                  <span className="text-sm">
+                    {button.level === 1 && "🔄"} {/* Example: Retry */}
+                    {button.level === 2 && "💪"} {/* Example: Hard */}
+                    {button.level === 3 && "👍"} {/* Example: Good */}
+                    {button.level === 4 && "👌"} {/* Example: Easy */}
+                    {button.level === 5 && "🌟"} {/* Example: Perfect */}
+                  </span>
+                  <span className="text-xs font-medium">{button.label}</span>
+                </button>
+              ))}
             </div>
-          )}
-        </>
+          </div>
+        )}
+      </div>
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg space-y-4">
+            <h2 className="text-lg font-semibold text-gray-800">
+              Delete Flashcard Set
+            </h2>
+            <p className="text-gray-600">
+              Are you sure? This action cannot be undone.
+            </p>
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
