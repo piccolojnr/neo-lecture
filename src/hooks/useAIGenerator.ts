@@ -4,6 +4,7 @@ import { API_URL } from '../config';
 
 export interface GenerateContentInput {
     chunks: string;
+    provider: string;
     apiKey: string;
     lectureId: string;
     title: string;

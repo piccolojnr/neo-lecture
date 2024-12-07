@@ -17,7 +17,7 @@ interface File {
 export default function LectureView() {
   const { lectureId } = useParams<{ lectureId: string }>();
   const navigate = useNavigate();
-  const { getLecture, deleteLecture } = useLectures();
+  const { getLecture, deleteLecture, deleteFile } = useLectures();
   const [isAddingFiles, setIsAddingFiles] = useState(false);
   const [activeTab, setActiveTab] = useState<
     "files" | "flashcards" | "quizzes"
@@ -44,8 +44,8 @@ export default function LectureView() {
   const handleDeleteFile = async (fileId: string) => {
     if (window.confirm("Are you sure you want to delete this file?")) {
       try {
-        await deleteLecture.mutateAsync(fileId);
-        await getLecture(lectureId!).refetch();
+        await deleteFile.mutateAsync({ lectureId: lectureId!, fileId });
+        await refetch();
       } catch (error) {
         console.error("Error deleting file:", error);
       }

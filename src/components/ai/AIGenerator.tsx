@@ -8,6 +8,7 @@ import { API_URL } from "../../config";
 import { ContentPreview } from "../ContentPreview";
 import { useFlashcards } from "../../hooks/useFlashcards";
 import { useQuizzes } from "../../hooks/useQuizzes";
+import { useAPIKeys } from "../../hooks/useAPIKeys";
 
 interface AIGeneratorProps {
   lectureId: string;
@@ -26,15 +27,16 @@ export default function AIGenerator({
   availableFiles,
 }: AIGeneratorProps) {
   const [title, setTitle] = useState("");
-  const [apiKey, setApiKey] = useState("");
   const [type, setType] = useState<"flashcard" | "quiz">("quiz");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<any[]>([]);
+  const [provider, setProvider] = useState<"openai" | "groq">("openai");
 
   const [selectedFileIds, setSelectedFileIds] = useState<string[]>([]);
 
   const { generateFlashcards, generateQuiz } = useAIGenerator();
+  const { getProviderKey } = useAPIKeys();
   const { createFlashcardSet } = useFlashcards();
   const { createQuiz } = useQuizzes();
   const isCreatingQuiz = createQuiz.isPending;
@@ -54,6 +56,14 @@ export default function AIGenerator({
     setIsLoading(true);
 
     try {
+      // Get API key for selected provider
+      const apiKey = await getProviderKey(provider);
+      if (!apiKey) {
+        throw new Error(
+          `No API key found for ${provider}. Please add one in settings.`
+        );
+      }
+
       // Step 1: Extract text
       const extractResponse = await axios.post(
         `${API_URL}/ai/extract-text`,
@@ -74,6 +84,7 @@ export default function AIGenerator({
       const data: GenerateContentInput = {
         chunks,
         apiKey,
+        provider,
         lectureId,
         title,
       };
@@ -186,6 +197,28 @@ export default function AIGenerator({
             />
           </div>
 
+          {/* AI Provider */}
+          <div>
+            <label
+              htmlFor="provider"
+              className="block text-sm font-medium text-gray-700"
+            >
+              AI Provider
+            </label>
+            <select
+              id="provider"
+              value={provider}
+              onChange={(e) => setProvider(e.target.value as "openai" | "groq")}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
+            >
+              <option value="openai">OpenAI</option>
+              <option value="groq">Groq</option>
+            </select>
+            <p className="mt-1 text-sm text-gray-500">
+              Make sure you have added your API key in settings
+            </p>
+          </div>
+
           {/* File Selection */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -212,27 +245,6 @@ export default function AIGenerator({
                 ))}
               </ul>
             )}
-          </div>
-
-          {/* API Key */}
-          <div>
-            <label
-              htmlFor="apiKey"
-              className="block text-sm font-medium text-gray-700"
-            >
-              OpenAI API Key
-            </label>
-            <input
-              type="password"
-              id="apiKey"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3"
-              required
-            />
-            <p className="mt-1 text-sm text-gray-500">
-              Your API key will not be stored and is only used for this request.
-            </p>
           </div>
 
           {/* Error Message */}

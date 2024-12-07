@@ -4,11 +4,13 @@ import {
   Routes,
   Route,
   Navigate,
+  Outlet,
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAuth } from "./hooks/useAuth";
 
 // Lazy load components
+const Main = React.lazy(() => import("./components/main/Main"));
 const SignIn = React.lazy(() => import("./components/auth/SignIn"));
 const SignUp = React.lazy(() => import("./components/auth/SignUp"));
 const Dashboard = React.lazy(() => import("./components/dashboard/Dashboard"));
@@ -30,13 +32,28 @@ const FlashcardSetEdit = React.lazy(
 const QuizCreate = React.lazy(() => import("./components/quizzes/QuizCreate"));
 const QuizView = React.lazy(() => import("./components/quizzes/QuizView"));
 const QuizEdit = React.lazy(() => import("./components/quizzes/QuizEdit"));
-const Navigation = React.lazy(() => import("./components/Navigation"));
 const Progress = React.lazy(() => import("./components/progress/Progress"));
+const Settings = React.lazy(() => import("./components/settings/Settings"));
 
-// Create a client
-const queryClient = new QueryClient();
+// Shared Layout Components
+const Navigation = React.lazy(() => import("./components/Navigation"));
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
+// Coming Soon Page
+function ComingSoon() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-gray-900">Coming Soon</h1>
+        <p className="mt-4 text-lg text-gray-600">
+          We are working hard to bring you new features. Stay tuned!
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// Protected Route Component
+function ProtectedRoute() {
   const { isAuthenticated, isLoading, checkAuth } = useAuth();
 
   useEffect(() => {
@@ -56,9 +73,13 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return <Navigate to="/auth/signin" />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 }
 
+// Query Client
+const queryClient = new QueryClient();
+
+// Main App
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -70,96 +91,65 @@ function App() {
             </div>
           }
         >
-          <div className="min-h-screen bg-gray-100 pt-20">
-            <Navigation />
+          <Layout>
             <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Main />} />
               <Route path="/auth/signin" element={<SignIn />} />
               <Route path="/auth/signup" element={<SignUp />} />
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/lectures/:lectureId"
-                element={
-                  <ProtectedRoute>
-                    <LectureView />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/lectures/create"
-                element={
-                  <ProtectedRoute>
-                    <LectureCreate />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/lectures/:lectureId/flashcards/create"
-                element={
-                  <ProtectedRoute>
-                    <FlashcardSetCreate />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/flashcards/:id"
-                element={
-                  <ProtectedRoute>
-                    <FlashcardSetView />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/flashcards/:id/edit"
-                element={
-                  <ProtectedRoute>
-                    <FlashcardSetEdit />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/lectures/:lectureId/quizzes/create"
-                element={
-                  <ProtectedRoute>
-                    <QuizCreate />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/quizzes/:id"
-                element={
-                  <ProtectedRoute>
-                    <QuizView />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/quizzes/:id/edit"
-                element={
-                  <ProtectedRoute>
-                    <QuizEdit />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/progress"
-                element={
-                  <ProtectedRoute>
-                    <Progress />
-                  </ProtectedRoute>
-                }
-              />
+
+              {/* Protected Routes with Shared Layout */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+
+                {/* Lectures */}
+                <Route path="/lectures/create" element={<LectureCreate />} />
+                <Route path="/lectures/:lectureId" element={<LectureView />} />
+
+                {/* Flashcards */}
+                <Route path="/flashcards/:id" element={<FlashcardSetView />} />
+                <Route
+                  path="/flashcards/:id/edit"
+                  element={<FlashcardSetEdit />}
+                />
+                <Route
+                  path="/lectures/:lectureId/flashcards/create"
+                  element={<FlashcardSetCreate />}
+                />
+
+                {/* Quizzes */}
+                <Route
+                  path="/lectures/:lectureId/quizzes/create"
+                  element={<QuizCreate />}
+                />
+                <Route path="/quizzes/:id" element={<QuizView />} />
+                <Route path="/quizzes/:id/edit" element={<QuizEdit />} />
+
+                {/* Progress */}
+                <Route path="/progress" element={<Progress />} />
+
+                {/* Coming Soon */}
+                <Route path="/profile" element={<ComingSoon />} />
+                <Route path="/settings" element={<Settings />} />
+              </Route>
+
+              {/* Catch-All Route */}
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
-          </div>
+          </Layout>
         </React.Suspense>
       </Router>
     </QueryClientProvider>
+  );
+}
+
+// Shared Layout for Protected Routes
+function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen bg-gray-100 pt-20">
+      <Navigation />
+      {children}
+    </div>
   );
 }
 

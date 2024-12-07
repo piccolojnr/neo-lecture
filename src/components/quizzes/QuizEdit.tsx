@@ -11,6 +11,7 @@ interface Question {
 
 export default function QuizEdit() {
   const { id } = useParams<{ id: string }>();
+
   const navigate = useNavigate();
   const { getQuiz, updateQuiz, deleteQuiz } = useQuizzes();
 
@@ -143,7 +144,7 @@ export default function QuizEdit() {
     if (window.confirm("Are you sure you want to delete this quiz?")) {
       try {
         await deleteQuiz.mutateAsync(id!);
-        navigate("/dashboard");
+        navigate("/lectures/" + quiz?.lecture.id);
       } catch (error) {
         console.error("Delete quiz error:", error);
       }

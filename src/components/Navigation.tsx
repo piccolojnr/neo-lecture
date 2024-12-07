@@ -8,18 +8,12 @@ export default function Navigation() {
   const [isStudyToolsOpen, setIsStudyToolsOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
   const ref2 = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        ref.current &&
-        !ref.current.contains(event.target as Node) &&
-        ref2.current &&
-        !ref2.current.contains(event.target as Node)
-      ) {
+      if (ref2.current && !ref2.current.contains(event.target as Node)) {
         setIsStudyToolsOpen(false);
         setIsUserMenuOpen(false);
       }
@@ -172,8 +166,8 @@ export default function Navigation() {
                   <DropdownMenu
                     isOpen={isUserMenuOpen}
                     items={[
-                      { to: "/dashboard/profile", label: "Profile" },
-                      { to: "/dashboard/settings", label: "Settings" },
+                      { to: "/profile", label: "Profile" },
+                      { to: "/settings", label: "Settings" },
                       { label: "Sign out", action: handleSignOut },
                     ]}
                   />
