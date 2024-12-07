@@ -27,7 +27,7 @@ export default function LectureView() {
   const { data: lecture, isLoading, error, refetch } = getLecture(lectureId!);
 
   const handleRefresh = () => {
-    refetch();
+    window.location.reload();
   };
 
   const handleDelete = async () => {

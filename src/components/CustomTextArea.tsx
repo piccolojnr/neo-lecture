@@ -179,7 +179,7 @@ export function CustomButton({
 }
 
 interface CustomFileUploadProps {
-  onFileSelect: (file: File) => void;
+  onFileSelect: (files: File[]) => void;
 }
 
 export function CustomFileUpload({ onFileSelect }: CustomFileUploadProps) {
@@ -247,7 +247,7 @@ export function CustomFileUpload({ onFileSelect }: CustomFileUploadProps) {
     setError(null);
 
     // Call onFileSelect for each valid file
-    selectedFiles.forEach((file) => onFileSelect(file));
+    onFileSelect(selectedFiles);
   };
 
   return (

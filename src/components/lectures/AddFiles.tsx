@@ -76,7 +76,7 @@ const AddFiles: React.FC<AddFilesProps> = ({
     <div className="bg-white p-4 rounded-lg shadow">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <CustomFileUpload onFileSelect={() => {}} />
+          <CustomFileUpload onFileSelect={(files) => setFiles(files)} />
         </div>
 
         {error && <div className="text-red-500 text-sm">{error}</div>}
