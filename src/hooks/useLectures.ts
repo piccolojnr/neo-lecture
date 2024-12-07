@@ -1,8 +1,8 @@
+import { API_URL } from '../config';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useState } from 'react';
 
-const API_URL = 'http://localhost:3001';
 
 interface Lecture {
   id: string;
@@ -59,7 +59,9 @@ export const useLectures = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });
+        withCredentials: true,
+      },
+      );
 
       setIsLoading(false);
       return response.data;
@@ -81,6 +83,7 @@ export const useLectures = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
+          withCredentials: true,
         });
         return response.data;
       },
@@ -93,6 +96,7 @@ export const useLectures = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
+        withCredentials: true,
       });
       return response.data;
     },
@@ -107,6 +111,7 @@ export const useLectures = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
+        withCredentials: true,
       });
       return response.data;
     },
@@ -131,6 +136,7 @@ export const useLectures = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "multipart/form-data",
           },
+          withCredentials: true,
         }
       );
       return response.data;
@@ -154,6 +160,7 @@ export const useLectures = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
+          withCredentials: true,
         }
       );
       return response.data;
