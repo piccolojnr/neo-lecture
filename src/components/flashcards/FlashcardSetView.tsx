@@ -100,6 +100,8 @@ export default function FlashcardSetView() {
       flashcardId: flashcardSet.flashcards[currentCardIndex].id,
       confidence,
     });
+
+    setIsFlipped(false);
   };
 
   const currentCard = flashcardSet.flashcards[currentCardIndex];
