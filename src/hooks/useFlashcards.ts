@@ -7,6 +7,9 @@ interface Flashcard {
   id: string;
   front: string;
   back: string;
+  flashcardReview: {
+    confidence: number;
+  }[]
 }
 
 interface FlashcardSet {
@@ -22,7 +25,10 @@ interface FlashcardSet {
 interface CreateFlashcardSetInput {
   title: string;
   lectureId: string;
-  flashcards: Array<{ front: string; back: string }>;
+  flashcards: Array<{
+    front: string; back: string,
+
+  }>;
 }
 
 interface UpdateFlashcardSetInput {

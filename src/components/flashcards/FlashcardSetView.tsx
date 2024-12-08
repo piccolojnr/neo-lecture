@@ -101,6 +101,10 @@ export default function FlashcardSetView() {
       confidence,
     });
 
+    flashcardSet.flashcards[currentCardIndex].flashcardReview = [
+      { confidence },
+    ];
+
     setIsFlipped(false);
   };
 
@@ -246,7 +250,7 @@ export default function FlashcardSetView() {
       )}
 
       <div className="grid grid-cols-6 gap-2 mt-4">
-        {flashcardSet.flashcards.map((_, index) => (
+        {flashcardSet.flashcards.map((card, index) => (
           <button
             key={index}
             onClick={() => {
@@ -254,7 +258,19 @@ export default function FlashcardSetView() {
               setIsFlipped(false);
             }}
             className={`h-2 rounded-full ${
-              currentCardIndex === index ? "bg-indigo-600" : "bg-gray-300"
+              currentCardIndex === index
+                ? "bg-indigo-300 shadow-md"
+                : card.flashcardReview.length > 0
+                ? card.flashcardReview[0].confidence === 5
+                  ? "bg-emerald-400"
+                  : card.flashcardReview[0].confidence === 4
+                  ? "bg-green-400"
+                  : card.flashcardReview[0].confidence === 3
+                  ? "bg-yellow-400"
+                  : card.flashcardReview[0].confidence === 2
+                  ? "bg-orange-400"
+                  : "bg-red-400"
+                : "bg-gray-200"
             }`}
           />
         ))}
