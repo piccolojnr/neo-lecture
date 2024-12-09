@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFlashcards } from "../../hooks/useFlashcards";
 import Breadcrumb from "../common/Breadcrumb";
@@ -37,6 +37,10 @@ export default function FlashcardSetView() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const { data: flashcardSet, isLoading, error } = getFlashcardSet(id!);
+
+  useEffect(() => {
+    setIsFlipped(false);
+  }, [currentCardIndex]);
 
   const submitReview = useMutation({
     mutationFn: async ({
@@ -99,7 +103,6 @@ export default function FlashcardSetView() {
       { confidence },
     ];
 
-    setIsFlipped(false);
     setCurrentCardIndex((index) =>
       Math.min(index + 1, flashcardSet.flashcards.length - 1)
     );
