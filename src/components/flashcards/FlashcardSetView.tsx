@@ -96,16 +96,16 @@ export default function FlashcardSetView() {
   };
 
   const handleConfidenceRating = (confidence: number) => {
-    submitReview.mutate({
-      flashcardId: flashcardSet.flashcards[currentCardIndex].id,
-      confidence,
-    });
-
     flashcardSet.flashcards[currentCardIndex].flashcardReview = [
       { confidence },
     ];
 
     setIsFlipped(false);
+
+    submitReview.mutate({
+      flashcardId: flashcardSet.flashcards[currentCardIndex].id,
+      confidence,
+    });
   };
 
   const currentCard = flashcardSet.flashcards[currentCardIndex];
