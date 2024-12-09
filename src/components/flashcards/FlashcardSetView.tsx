@@ -55,10 +55,9 @@ export default function FlashcardSetView() {
       );
       return response.data;
     },
-    onSuccess: () =>
-      setCurrentCardIndex((index) =>
-        Math.min(index + 1, flashcardSet!.flashcards.length - 1)
-      ),
+    onSuccess: () => {
+      console.log("Review submitted successfully");
+    },
   });
 
   if (isLoading) {
@@ -101,6 +100,9 @@ export default function FlashcardSetView() {
     ];
 
     setIsFlipped(false);
+    setCurrentCardIndex((index) =>
+      Math.min(index + 1, flashcardSet.flashcards.length - 1)
+    );
 
     submitReview.mutate({
       flashcardId: flashcardSet.flashcards[currentCardIndex].id,
