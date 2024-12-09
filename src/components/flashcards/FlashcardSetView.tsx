@@ -12,6 +12,7 @@ import {
   TrashIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
+import ReactMarkdown from "react-markdown";
 
 interface ConfidenceButton {
   level: number;
@@ -168,7 +169,7 @@ export default function FlashcardSetView() {
             }`}
           >
             <p className="text-center overflow-scroll text-ellipsis max-h-full leading-tight no-scrollbar ">
-              {currentCard.back}
+              <ReactMarkdown>{currentCard.back}</ReactMarkdown>
             </p>
           </div>
         </div>
