@@ -39,8 +39,10 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">My Lectures</h1>
+      <div className="flex flex-wrap justify-between items-center mb-8 gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+          My Lectures
+        </h1>
         <Link
           to="/lectures/create"
           className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -51,7 +53,7 @@ export default function Dashboard() {
 
       {lectures.length === 0 ? (
         <div className="text-center py-12">
-          <h3 className="mt-2 text-sm font-medium text-gray-900">
+          <h3 className="text-lg sm:text-xl font-medium text-gray-900">
             No lectures
           </h3>
           <p className="mt-1 text-sm text-gray-500">
@@ -72,29 +74,29 @@ export default function Dashboard() {
             {lectures.map((lecture: Lecture) => (
               <li key={lecture.id}>
                 <div className="px-4 py-4 sm:px-6 hover:bg-gray-50">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center justify-between gap-4">
+                    <div className="flex-1 ">
                       <button
                         onClick={() => navigate(`/lectures/${lecture.id}`)}
                         className="text-left block focus:outline-none"
                       >
-                        <p className="text-sm font-medium text-indigo-600 truncate">
+                        <p className="text-sm sm:text-base font-medium text-indigo-600 truncate">
                           {lecture.title}
                         </p>
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-1 text-xs sm:text-sm text-gray-500">
                           Created on{" "}
                           {new Date(lecture.createdAt).toLocaleDateString()}
                         </p>
                       </button>
                     </div>
-                    <div className="flex items-center space-x-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs sm:text-sm font-medium bg-green-100 text-green-800">
                         {lecture._count.flashcardSets} Flashcard Sets
                       </span>
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs sm:text-sm font-medium bg-blue-100 text-blue-800">
                         {lecture._count.quizzes} Quizzes
                       </span>
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs sm:text-sm font-medium bg-yellow-100 text-yellow-800">
                         {lecture._count.files} Files
                       </span>
                       <button

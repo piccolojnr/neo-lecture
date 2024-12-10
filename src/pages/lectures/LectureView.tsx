@@ -110,7 +110,7 @@ export default function LectureView() {
           />
           <div className="grid grid-cols-1 gap-4 mt-4" key={lecture.id}>
             <div className="bg-white shadow rounded-lg">
-              <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
+              <div className="px-4 py-5 sm:px-6 flex justify-between items-center flex-wrap">
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900">
                     {lecture.title}
@@ -133,7 +133,7 @@ export default function LectureView() {
             </div>
             {/* Add AI Generator */}
             <div className="bg-white shadow rounded-lg p-6">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center flex-wrap">
                 <h2 className="text-lg font-semibold text-gray-900">
                   AI Generator
                 </h2>
@@ -158,7 +158,7 @@ export default function LectureView() {
 
             <div className="bg-white shadow rounded-lg mt-4">
               <div className="border-b border-gray-200">
-                <nav className="flex -mb-px ml-8">
+                <nav className="flex -mb-px ml-8 flex-wrap">
                   <button
                     onClick={() => setActiveTab("files")}
                     className={`mr-8 py-4 px-1 border-b-2 font-medium text-sm ${
@@ -195,7 +195,7 @@ export default function LectureView() {
               <div className="px-4 py-5 sm:p-6">
                 {activeTab === "files" && (
                   <div>
-                    <div className="mb-4 flex justify-between items-center">
+                    <div className="mb-4 flex justify-between items-center flex-wrap">
                       <h2 className="text-lg font-semibold text-gray-900">
                         Files
                       </h2>
@@ -257,7 +257,7 @@ export default function LectureView() {
 
                 {activeTab === "flashcards" && (
                   <div>
-                    <div className="mb-4 flex justify-between items-center">
+                    <div className="mb-4 flex justify-between items-center flex-wrap">
                       <h2 className="text-lg font-semibold text-gray-900">
                         Flashcard Sets
                       </h2>
@@ -301,7 +301,7 @@ export default function LectureView() {
 
                 {activeTab === "quizzes" && (
                   <div className="bg-white shadow rounded-lg p-6">
-                    <div className="flex justify-between items-center mb-4">
+                    <div className="flex justify-between items-center mb-4 flex-wrap">
                       <h2 className="text-lg font-semibold text-gray-900">
                         Quizzes
                       </h2>

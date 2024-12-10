@@ -152,7 +152,7 @@ export default function Progress() {
                         key={quizId}
                         className="bg-gray-50 rounded-lg p-4 shadow-sm"
                       >
-                        <div className="flex justify-between items-start">
+                        <div className="flex justify-between items-start flex-wrap">
                           <div>
                             <h3 className="font-medium text-gray-900">
                               {quiz.title}
@@ -161,7 +161,7 @@ export default function Progress() {
                               {quiz.lecture.title}
                             </p>
                           </div>
-                          <div className="text-right">
+                          <div className="text-left sm:text-right">
                             <p className="text-lg font-semibold text-indigo-600">
                               {averageScore}%
                             </p>
@@ -179,7 +179,7 @@ export default function Progress() {
                             {attempts.slice(0, 3).map((attempt) => (
                               <div
                                 key={attempt.id}
-                                className="flex justify-between items-center text-sm"
+                                className="flex justify-between items-center text-sm flex-wrap"
                               >
                                 <span className="text-gray-500">
                                   {new Date(
@@ -232,7 +232,7 @@ export default function Progress() {
                         key={progress.setId}
                         className="bg-gray-50 rounded-lg p-4 shadow-sm"
                       >
-                        <div className="flex justify-between items-start">
+                        <div className="flex justify-between items-start flex-wrap">
                           <div>
                             <h3 className="font-medium text-gray-900">
                               {progress.title}
@@ -241,7 +241,7 @@ export default function Progress() {
                               {progress.lecture.title}
                             </p>
                           </div>
-                          <div className="text-right">
+                          <div className="text-left sm:text-right">
                             <p
                               className={`text-lg font-semibold ${confidenceColor}`}
                             >
@@ -261,14 +261,14 @@ export default function Progress() {
                             {progress.reviews.slice(0, 3).map((review) => (
                               <div
                                 key={review.id}
-                                className="flex justify-between items-center text-sm"
+                                className="flex justify-between items-center text-sm flex-wrap"
                               >
                                 <span className="text-gray-500">
                                   {new Date(
                                     review.createdAt
                                   ).toLocaleDateString()}
                                 </span>
-                                <div className="flex items-center space-x-4">
+                                <div className="flex items-center space-x-4 flex-wrap">
                                   <span
                                     className={`font-medium ${getConfidenceColor(
                                       review.confidence
