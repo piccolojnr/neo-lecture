@@ -102,7 +102,7 @@ const Maintenance = () => (
 
 const App = () => (
   <>
-    {true ? (
+    {false ? (
       <Maintenance />
     ) : (
       <QueryClientProvider client={queryClient}>
