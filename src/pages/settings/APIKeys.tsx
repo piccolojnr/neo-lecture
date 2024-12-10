@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAPIKeys } from "../../hooks/useAPIKeys";
-import { CustomInput, CustomSelect } from "../CustomTextArea";
+import { CustomInput, CustomSelect } from "../../components/CustomTextArea";
 
 const PROVIDERS = [
   { id: "openai", name: "OpenAI" },

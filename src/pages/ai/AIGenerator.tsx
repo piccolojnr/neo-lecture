@@ -5,11 +5,15 @@ import {
 } from "../../hooks/useAIGenerator";
 import axios from "axios";
 import { API_URL } from "../../config";
-import { ContentPreview } from "../ContentPreview";
+import { ContentPreview } from "../../components/ContentPreview";
 import { useFlashcards } from "../../hooks/useFlashcards";
 import { useQuizzes } from "../../hooks/useQuizzes";
 import { useAPIKeys } from "../../hooks/useAPIKeys";
-import { CustomCheckbox, CustomInput, CustomSelect } from "../CustomTextArea";
+import {
+  CustomCheckbox,
+  CustomInput,
+  CustomSelect,
+} from "../../components/CustomTextArea";
 
 interface AIGeneratorProps {
   lectureId: string;

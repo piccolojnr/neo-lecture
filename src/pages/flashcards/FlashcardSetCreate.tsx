@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFlashcards } from "../../hooks/useFlashcards";
-import { CustomInput, CustomTextArea } from "../CustomTextArea";
+import { CustomInput, CustomTextArea } from "../../components/CustomTextArea";
 import Breadcrumb from "../common/Breadcrumb";
 
 interface Flashcard {

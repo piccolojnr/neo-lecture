@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { API_URL } from "../../config";
-import { CustomFileUpload } from "../CustomTextArea";
+import { CustomFileUpload } from "../../components/CustomTextArea";
 
 interface AddFilesProps {
   lectureId: string;

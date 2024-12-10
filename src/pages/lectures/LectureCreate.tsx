@@ -60,7 +60,11 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { API_URL } from "../../config";
-import { CustomButton, CustomInput, CustomTextArea } from "../CustomTextArea";
+import {
+  CustomButton,
+  CustomInput,
+  CustomTextArea,
+} from "../../components/CustomTextArea";
 
 export default function LectureCreate() {
   const navigate = useNavigate();
