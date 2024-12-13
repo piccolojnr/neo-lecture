@@ -1,46 +1,123 @@
-# Getting Started with Create React App
+# Neo Lecture Frontend Development Prompt
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Overview
+Create a modern web application using React/Next.js that interfaces with the Neo Lecture API. The application should provide an intuitive interface for users to manage lecture content, create quizzes, and use flashcards for learning.
 
-## Available Scripts
+## Core Features
 
-In the project directory, you can run:
+### Authentication
+- Login/Register pages with email validation
+- Protected routes for authenticated users
+- Admin authentication with separate dashboard
+- JWT token management and refresh mechanism
 
-### `npm start`
+### File Management
+- Drag-and-drop file upload interface
+- Support for multiple file formats (PDF, DOCX, TXT, images)
+- File preview functionality
+- Progress indicators for file processing
+- OCR toggle option for image uploads
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Content Generation
+- AI-powered quiz generation interface
+  - Configurable number of questions
+  - Preview and edit generated questions
+  - Save/discard options
+- Flashcard generation interface
+  - Customizable number of cards
+  - Preview and edit capabilities
+  - Spaced repetition settings
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Quiz System
+- Quiz listing with search and filters
+- Interactive quiz-taking interface
+- Real-time scoring
+- Review mode with explanations
+- Progress tracking and analytics
+- Quiz history and performance metrics
 
-### `npm test`
+### Flashcard System
+- Flashcard deck management
+- Study mode with flip animation
+- Confidence level tracking (1-5 scale)
+- Spaced repetition algorithm implementation
+- Due cards notification system
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Admin Dashboard
+- User management interface
+- System analytics and metrics
+- Audit log viewer
+- Content moderation tools
+- Performance monitoring
 
-### `npm run build`
+## Technical Requirements
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend Stack
+- Next.js 14+ with App Router
+- TypeScript for type safety
+- Tailwind CSS for styling
+- Shadcn UI for component library
+- React Query for data fetching
+- Zustand for state management
+- React Hook Form for form handling
+- Zod for schema validation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Key Features
+- Responsive design (mobile-first)
+- Dark/light theme support
+- Optimistic updates
+- Error boundaries
+- Loading states
+- Toast notifications
+- Infinite scrolling
+- Search functionality
+- Sorting and filtering
+- Export capabilities
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Performance
+- Code splitting
+- Image optimization
+- Lazy loading
+- Caching strategies
+- Performance monitoring
 
-### `npm run eject`
+### Security
+- Input validation
+- XSS prevention
+- CSRF protection
+- Rate limiting handling
+- Secure credential storage
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## User Experience
+- Clean, intuitive interface
+- Consistent design language
+- Helpful error messages
+- Loading indicators
+- Empty states
+- Success feedback
+- Keyboard shortcuts
+- Accessibility compliance
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## API Integration
+- Proper error handling
+- Request caching
+- Token management
+- Rate limit handling
+- File upload progress
+- Websocket integration (if needed)
+- Retry mechanisms
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Deployment
+- CI/CD pipeline
+- Environment configuration
+- Build optimization
+- Analytics integration
+- Error tracking
+- Performance monitoring
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Documentation
+- Setup instructions
+- API documentation
+- Component documentation
+- State management patterns
+- Testing guidelines
