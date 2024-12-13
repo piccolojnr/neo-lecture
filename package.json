@@ -2,6 +2,7 @@
   "name": "neo-lecture",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://54.237.184.84:8000",
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@tanstack/react-query": "^5.0.0",

@@ -130,7 +130,7 @@ export default function FlashcardSetView() {
       };
 
       // Fetch the PPTX file from the API
-      const response = await fetch("http://54.237.184.84:8000/generate-pptx/", {
+      const response = await fetch(API_URL + "/generate-pptx/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
